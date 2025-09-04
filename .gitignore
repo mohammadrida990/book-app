@@ -1,0 +1,10 @@
+# dependencies
+node_modules/
+
+# env files
+.env
+.env.*   # ignores .env.local, .env.production, etc.
+
+# build outputs
+dist/
+build/
