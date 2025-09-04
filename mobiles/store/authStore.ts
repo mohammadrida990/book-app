@@ -38,4 +38,56 @@ export const useAuthStore = create<any>((set) => ({
       return { success: false, message: error.message };
     }
   },
+  checkAuth: async () => {
+    const token = await AsyncStorage.getItem("token");
+    try {
+      const userJson = await AsyncStorage.getItem("user");
+
+      const user = userJson ? JSON.parse(userJson) : null;
+
+      if (token && user) {
+        set({ token, user });
+      }
+    } catch (error) {
+      console.log("auth store error:", error);
+    }
+  },
+  logout: async () => {
+    await AsyncStorage.removeItem("user");
+    await AsyncStorage.removeItem("token");
+    set({ user: null, token: null });
+  },
+  login: async (email: string, password: string) => {
+    set({ isLoading: true });
+
+    try {
+      const response = await fetch(
+        "https://book-app-wqbb.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
+      await AsyncStorage.setItem("token", data.token);
+
+      set({ user: data.user, token: data.token, isLoading: false });
+
+      return { success: true };
+    } catch (error: any) {
+      console.error("Error during login:", error);
+      set({ isLoading: false });
+      return { success: false, message: error.message };
+    }
+  },
 }));

@@ -40,7 +40,7 @@ export const register = async (req, res) => {
     const newUser = new User({
       email,
       username,
-      password: hashedPassword,
+      password,
       profileImage,
     });
 

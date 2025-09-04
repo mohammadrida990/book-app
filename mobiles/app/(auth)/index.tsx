@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Link } from "expo-router";
 import styles from "../../assets/styles/login.styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthStore } from "../../store/authStore";
 import COLORS from "../../constants/xolors";
@@ -21,9 +21,19 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { user, isLoading, register, token } = useAuthStore();
+  const { isLoading, login, checkAuth } = useAuthStore();
 
-  const handleLogin = async () => {};
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  const handleLogin = async () => {
+    await login(email, password).then((res: any) => {
+      if (!res.success) {
+        Alert.alert("Login Failed", res.message || "An error occurred");
+      }
+    });
+  };
 
   return (
     <KeyboardAvoidingView
