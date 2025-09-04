@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_URL } from "@/constants/api";
 
 export const useAuthStore = create<any>((set) => ({
   user: null,
@@ -39,8 +40,8 @@ export const useAuthStore = create<any>((set) => ({
     }
   },
   checkAuth: async () => {
-    const token = await AsyncStorage.getItem("token");
     try {
+      const token = await AsyncStorage.getItem("token");
       const userJson = await AsyncStorage.getItem("user");
 
       const user = userJson ? JSON.parse(userJson) : null;
@@ -61,22 +62,18 @@ export const useAuthStore = create<any>((set) => ({
     set({ isLoading: true });
 
     try {
-      const response = await fetch(
-        "https://book-app-wqbb.onrender.com/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
 
       if (!response.ok) {
         throw new Error("Login failed");
       }
-
-      const data = await response.json();
 
       await AsyncStorage.setItem("user", JSON.stringify(data.user));
       await AsyncStorage.setItem("token", data.token);

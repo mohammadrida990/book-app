@@ -98,6 +98,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.log("error in login route:", error);
+
     res.status(500).json({ message: "Internal Server error" });
   }
 };
