@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import styles from "../../assets/styles/signup.styles";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "../../constants/colors";
+import COLORS from "../../constants/xolors";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useAuthStore } from "../../store/authStore";

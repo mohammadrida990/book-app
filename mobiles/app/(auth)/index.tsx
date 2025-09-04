@@ -13,8 +13,8 @@ import { Link } from "expo-router";
 import styles from "../../assets/styles/login.styles";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import COLORS from "../../constants/colors";
 import { useAuthStore } from "../../store/authStore";
+import COLORS from "../../constants/xolors";
 
 export default function Login() {
   const [email, setEmail] = useState("");
