@@ -29,7 +29,7 @@ export const addBook = async (req, res) => {
 export const getBooks = async (req, res) => {
   try {
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const limit = req.query.limit ? parseInt(req.query.limit) : 5;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 2;
     const skip = (page - 1) * limit;
 
     const books = await Book.find()
