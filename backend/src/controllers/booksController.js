@@ -38,10 +38,12 @@ export const getBooks = async (req, res) => {
       .limit(limit)
       .populate("user", "username profileImage"); // Populate user details
 
+    const totalBooks = await Book.countDocuments();
+
     res.status(200).json({
       books,
       currentPage: page,
-      totalBooks: Math.ceil((await Book.countDocuments()) / limit),
+      totalPages: Math.ceil(totalBooks / limit),
     });
   } catch (error) {
     console.error("Error fetching books:", error);
