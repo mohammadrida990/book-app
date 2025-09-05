@@ -9,7 +9,8 @@ import job from "./lib/cron.js";
 const app = express();
 job.start(); // Start the cron job
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cors());
 
 const port = process.env.PORT || 3001;

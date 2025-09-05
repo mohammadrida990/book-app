@@ -9,7 +9,7 @@ export const addBook = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const imageUrl = await uploadFile(req.file);
+    const imageUrl = await uploadFile(image);
 
     // Create new book
     const newBook = new Book({
@@ -88,9 +88,12 @@ export const deleteBook = async (req, res) => {
 
 export const getUserBooks = async (req, res) => {
   try {
-    const books = await Book.find({ user: req.user._id }).sort({
+    const books = await Book.find({
+      user: req.user._id,
+    }).sort({
       createdAt: -1,
     });
+
     res.json(books);
   } catch (error) {
     console.error("Get user books error:", error.message);
