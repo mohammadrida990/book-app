@@ -21,7 +21,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isLoading, login, checkAuth } = useAuthStore();
+  const { isLoading, login, checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -34,6 +34,10 @@ export default function Login() {
       }
     });
   };
+
+  if (isCheckingAuth) {
+    return null;
+  }
 
   return (
     <KeyboardAvoidingView

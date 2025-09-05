@@ -90,14 +90,13 @@ const Create = () => {
     try {
       setLoading(true);
 
-      // get file extension from URI or default to jpeg
-      const uriParts = image ? image.split(".") : "";
-      const fileType = uriParts[uriParts.length - 1];
-      const imageType = fileType
-        ? `image/${fileType.toLowerCase()}`
-        : "image/jpeg";
+      let imageDataUrl = imageBase64;
 
-      const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
+      if (!imageBase64.startsWith("data:")) {
+        const fileType = image?.split(".").pop() || "jpeg"; // fallback to jpeg
+        const mimeType = `image/${fileType.toLowerCase()}`;
+        imageDataUrl = `data:${mimeType};base64,${imageBase64}`;
+      }
 
       const response = await fetch(`${API_URL}/books`, {
         method: "POST",
